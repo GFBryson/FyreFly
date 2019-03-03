@@ -40,7 +40,7 @@ app.post('/start', (request, response) => {
   bWidth = request.body.board.width;
 
   const data = {
-    color: '#A085B0',
+    color: '#e52470',
     name: "FyreFly"
   }
   return response.json(data)
