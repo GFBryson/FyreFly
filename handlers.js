@@ -16,6 +16,8 @@ const fallbackHandler = (req, res, next) => {
     return res.send(`
       Battlesnake documentation can be found at
        <a href="https://docs.battlesnake.io">https://docs.battlesnake.io</a>.
+       \n
+       FyreFly V 0.01
     `)
   }
 
