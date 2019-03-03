@@ -2054,3 +2054,453 @@ Server listening on port 5000
 [32m[nodemon] restarting due to changes...[39m
 [32m[nodemon] starting `node index.js`[39m
 Server listening on port 5000
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node index.js`[39m
+Server listening on port 5000
+0 0
+[0mPOST /start [32m200 [0m23.966 ms - 36[0m
+Turn= 0
+Head -- X: 6 Y: 4
+dir after position test: true,true,true,true
+dir after body test: true,true,true,true
+dir after edge test: true,true,true,true
+[ 'up', 'down', 'left', 'right' ]
+Moving: down
+
+
+[0mPOST /move [32m200 [0m7.852 ms - 15[0m
+Turn= 1
+Head -- X: 6 Y: 5
+dir after position test: true,true,true,true
+dir after body test: false,true,true,true
+dir after edge test: false,true,true,true
+[ 'down', 'left', 'right' ]
+Moving: right
+
+
+[0mPOST /move [32m200 [0m2.491 ms - 16[0m
+Turn= 2
+Head -- X: 7 Y: 5
+dir after position test: true,true,true,true
+dir after body test: true,true,false,true
+dir after edge test: true,true,false,true
+[ 'up', 'down', 'right' ]
+Moving: down
+
+
+[0mPOST /move [32m200 [0m1.104 ms - 15[0m
+Turn= 3
+Head -- X: 7 Y: 6
+dir after position test: true,true,true,true
+dir after body test: false,true,true,true
+dir after edge test: false,true,true,true
+[ 'down', 'left', 'right' ]
+Moving: left
+
+
+[0mPOST /move [32m200 [0m1.147 ms - 15[0m
+Turn= 4
+Head -- X: 6 Y: 6
+dir after position test: true,true,true,true
+dir after body test: true,true,true,false
+dir after edge test: true,true,true,false
+[ 'up', 'down', 'left' ]
+Moving: up
+
+
+[0mPOST /move [32m200 [0m1.793 ms - 13[0m
+Turn= 5
+Head -- X: 6 Y: 5
+dir after position test: true,true,true,true
+dir after body test: true,false,true,true
+dir after edge test: true,false,true,true
+[ 'up', 'left', 'right' ]
+Moving: up
+
+
+[0mPOST /move [32m200 [0m1.276 ms - 13[0m
+Turn= 6
+Head -- X: 6 Y: 4
+dir after position test: true,true,true,true
+dir after body test: true,false,true,true
+dir after edge test: true,false,true,true
+[ 'up', 'left', 'right' ]
+Moving: right
+
+
+[0mPOST /move [32m200 [0m3.090 ms - 16[0m
+Turn= 7
+Head -- X: 7 Y: 4
+dir after position test: true,true,true,true
+dir after body test: true,true,false,true
+dir after edge test: true,true,false,true
+[ 'up', 'down', 'right' ]
+Moving: down
+
+
+[0mPOST /move [32m200 [0m1.056 ms - 15[0m
+Turn= 8
+Head -- X: 7 Y: 5
+dir after position test: true,true,true,true
+dir after body test: false,true,true,true
+dir after edge test: false,true,true,true
+[ 'down', 'left', 'right' ]
+Moving: down
+
+
+[0mPOST /move [32m200 [0m1.797 ms - 15[0m
+Turn= 9
+Head -- X: 7 Y: 6
+dir after position test: true,true,true,true
+dir after body test: false,true,true,true
+dir after edge test: false,true,true,true
+[ 'down', 'left', 'right' ]
+Moving: left
+
+
+[0mPOST /move [32m200 [0m1.148 ms - 15[0m
+Turn= 10
+Head -- X: 6 Y: 6
+dir after position test: true,true,true,true
+dir after body test: true,true,true,false
+dir after edge test: true,true,true,false
+[ 'up', 'down', 'left' ]
+Moving: up
+
+
+[0mPOST /move [32m200 [0m1.066 ms - 13[0m
+Turn= 11
+Head -- X: 6 Y: 5
+dir after position test: true,true,true,true
+dir after body test: true,false,true,true
+dir after edge test: true,false,true,true
+[ 'up', 'left', 'right' ]
+Moving: right
+
+
+[0mPOST /move [32m200 [0m1.278 ms - 16[0m
+Turn= 12
+Head -- X: 7 Y: 5
+dir after position test: true,true,true,true
+dir after body test: true,true,false,true
+dir after edge test: true,true,false,true
+[ 'up', 'down', 'right' ]
+Moving: down
+
+
+[0mPOST /move [32m200 [0m1.014 ms - 15[0m
+Turn= 13
+Head -- X: 7 Y: 6
+dir after position test: true,true,true,true
+dir after body test: false,true,true,true
+dir after edge test: false,true,true,true
+[ 'down', 'left', 'right' ]
+Moving: left
+
+
+[0mPOST /move [32m200 [0m1.642 ms - 15[0m
+Turn= 14
+Head -- X: 6 Y: 6
+dir after position test: true,true,true,true
+dir after body test: true,true,true,false
+dir after edge test: true,true,true,false
+[ 'up', 'down', 'left' ]
+Moving: up
+
+
+[0mPOST /move [32m200 [0m4.574 ms - 13[0m
+Turn= 15
+Head -- X: 6 Y: 5
+dir after position test: true,true,true,true
+dir after body test: true,false,true,true
+dir after edge test: true,false,true,true
+[ 'up', 'left', 'right' ]
+Moving: left
+
+
+[0mPOST /move [32m200 [0m1.375 ms - 15[0m
+Turn= 16
+Head -- X: 5 Y: 5
+dir after position test: true,true,true,true
+dir after body test: true,true,true,false
+dir after edge test: true,true,true,false
+[ 'up', 'down', 'left' ]
+Moving: left
+
+
+[0mPOST /move [32m200 [0m1.030 ms - 15[0m
+Turn= 17
+Head -- X: 4 Y: 5
+dir after position test: true,true,true,true
+dir after body test: true,true,true,false
+dir after edge test: true,true,true,false
+[ 'up', 'down', 'left' ]
+Moving: left
+
+
+[0mPOST /move [32m200 [0m2.397 ms - 15[0m
+Turn= 18
+Head -- X: 3 Y: 5
+dir after position test: true,true,true,true
+dir after body test: true,true,true,false
+dir after edge test: true,true,true,false
+[ 'up', 'down', 'left' ]
+Moving: up
+
+
+[0mPOST /move [32m200 [0m1.482 ms - 13[0m
+Turn= 19
+Head -- X: 3 Y: 4
+dir after position test: true,true,true,true
+dir after body test: true,false,true,true
+dir after edge test: true,false,true,true
+[ 'up', 'left', 'right' ]
+Moving: left
+
+
+[0mPOST /move [32m200 [0m3.149 ms - 15[0m
+Turn= 20
+Head -- X: 2 Y: 4
+dir after position test: true,true,true,true
+dir after body test: true,true,true,false
+dir after edge test: true,true,true,false
+[ 'up', 'down', 'left' ]
+Moving: up
+
+
+[0mPOST /move [32m200 [0m0.998 ms - 13[0m
+Turn= 21
+Head -- X: 2 Y: 3
+dir after position test: true,true,true,true
+dir after body test: true,false,true,true
+dir after edge test: true,false,true,true
+[ 'up', 'left', 'right' ]
+Moving: right
+
+
+[0mPOST /move [32m200 [0m1.437 ms - 16[0m
+Turn= 22
+Head -- X: 3 Y: 3
+dir after position test: true,true,true,true
+dir after body test: true,true,false,true
+dir after edge test: true,true,false,true
+[ 'up', 'down', 'right' ]
+Moving: right
+
+
+[0mPOST /move [32m200 [0m0.865 ms - 16[0m
+Turn= 23
+Head -- X: 4 Y: 3
+dir after position test: true,true,true,true
+dir after body test: true,true,false,true
+dir after edge test: true,true,false,true
+[ 'up', 'down', 'right' ]
+Moving: down
+
+
+[0mPOST /move [32m200 [0m0.934 ms - 15[0m
+Turn= 24
+Head -- X: 4 Y: 4
+dir after position test: true,true,true,true
+dir after body test: false,true,true,true
+dir after edge test: false,true,true,true
+[ 'down', 'left', 'right' ]
+Moving: right
+
+
+[0mPOST /move [32m200 [0m0.901 ms - 16[0m
+[0mPOST /end [32m200 [0m0.644 ms - 2[0m
+15 15
+[0mPOST /start [32m200 [0m0.390 ms - 36[0m
+Turn= 0
+Head -- X: 10 Y: 11
+dir after position test: true,true,true,true
+dir after body test: true,true,true,true
+dir after edge test: true,true,true,true
+[ 'up', 'down', 'left', 'right' ]
+Moving: right
+
+
+[0mPOST /move [32m200 [0m1.451 ms - 16[0m
+Turn= 1
+Head -- X: 11 Y: 11
+dir after position test: true,true,true,true
+dir after body test: true,true,false,true
+dir after edge test: true,true,false,true
+[ 'up', 'down', 'right' ]
+Moving: up
+
+
+[0mPOST /move [32m200 [0m0.810 ms - 13[0m
+Turn= 2
+Head -- X: 11 Y: 10
+dir after position test: true,true,true,true
+dir after body test: true,false,true,true
+dir after edge test: true,false,true,true
+[ 'up', 'left', 'right' ]
+Moving: right
+
+
+[0mPOST /move [32m200 [0m0.887 ms - 16[0m
+Turn= 3
+Head -- X: 12 Y: 10
+dir after position test: true,true,true,true
+dir after body test: true,true,false,true
+dir after edge test: true,true,false,true
+[ 'up', 'down', 'right' ]
+Moving: down
+
+
+[0mPOST /move [32m200 [0m5.784 ms - 15[0m
+Turn= 4
+Head -- X: 12 Y: 11
+dir after position test: true,true,true,true
+dir after body test: false,true,true,true
+dir after edge test: false,true,true,true
+[ 'down', 'left', 'right' ]
+Moving: down
+
+
+[0mPOST /move [32m200 [0m2.205 ms - 15[0m
+Turn= 5
+Head -- X: 12 Y: 12
+dir after position test: true,true,true,true
+dir after body test: false,true,true,true
+dir after edge test: false,true,true,true
+[ 'down', 'left', 'right' ]
+Moving: right
+
+
+[0mPOST /move [32m200 [0m0.778 ms - 16[0m
+Turn= 6
+Head -- X: 13 Y: 12
+dir after position test: true,true,true,true
+dir after body test: true,true,false,true
+dir after edge test: true,true,false,true
+[ 'up', 'down', 'right' ]
+Moving: right
+
+
+[0mPOST /move [32m200 [0m0.794 ms - 16[0m
+Turn= 7
+Head -- X: 14 Y: 12
+dir after position test: true,true,true,false
+dir after body test: true,true,false,false
+ReferenceError: borderY is not defined
+    at app.post.err (/mnt/c/Users/gilli/git_repos/projects/battlesnake/HighCodeSnake/index.js:123:9)
+    at Layer.handle [as handle_request] (/mnt/c/Users/gilli/git_repos/projects/battlesnake/HighCodeSnake/node_modules/express/lib/router/layer.js:95:5)
+    at next (/mnt/c/Users/gilli/git_repos/projects/battlesnake/HighCodeSnake/node_modules/express/lib/router/route.js:137:13)
+    at Route.dispatch (/mnt/c/Users/gilli/git_repos/projects/battlesnake/HighCodeSnake/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/mnt/c/Users/gilli/git_repos/projects/battlesnake/HighCodeSnake/node_modules/express/lib/router/layer.js:95:5)
+    at /mnt/c/Users/gilli/git_repos/projects/battlesnake/HighCodeSnake/node_modules/express/lib/router/index.js:281:22
+    at Function.process_params (/mnt/c/Users/gilli/git_repos/projects/battlesnake/HighCodeSnake/node_modules/express/lib/router/index.js:335:12)
+    at next (/mnt/c/Users/gilli/git_repos/projects/battlesnake/HighCodeSnake/node_modules/express/lib/router/index.js:275:10)
+    at poweredByHandler (/mnt/c/Users/gilli/git_repos/projects/battlesnake/HighCodeSnake/handlers.js:8:3)
+    at Layer.handle [as handle_request] (/mnt/c/Users/gilli/git_repos/projects/battlesnake/HighCodeSnake/node_modules/express/lib/router/layer.js:95:5)
+Moving: undefined
+
+
+[0mPOST /move [32m200 [0m5.252 ms - 2[0m
+[0mPOST /end [32m200 [0m1.039 ms - 2[0m
+
+> battlesnake-node@0.0.0 start /mnt/c/Users/gilli/git_repos/projects/battlesnake/HighCodeSnake
+> cross-env PORT=5000 nodemon index.js
+
+[33m[nodemon] 1.18.10[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching: *.*[39m
+[32m[nodemon] starting `node index.js`[39m
+Server listening on port 5000
+0 0
+[0mPOST /start [32m200 [0m25.808 ms - 36[0m
+Turn= 0
+Head -- X: 5 Y: 2
+dir after position test: true,true,true,true
+dir after body test: true,true,true,true
+dir after edge test: true,true,true,true
+[ 'up', 'down', 'left', 'right' ]
+Moving: right
+
+
+[0mPOST /move [32m200 [0m7.831 ms - 16[0m
+Turn= 1
+Head -- X: 6 Y: 2
+dir after position test: true,true,true,true
+dir after body test: true,true,false,true
+dir after edge test: true,true,false,true
+[ 'up', 'down', 'right' ]
+Moving: down
+
+
+[0mPOST /move [32m200 [0m2.615 ms - 15[0m
+Turn= 2
+Head -- X: 6 Y: 3
+dir after position test: true,true,true,true
+dir after body test: false,true,true,true
+dir after edge test: false,true,true,true
+[ 'down', 'left', 'right' ]
+Moving: right
+
+
+[0mPOST /move [32m200 [0m0.917 ms - 16[0m
+Turn= 3
+Head -- X: 7 Y: 3
+dir after position test: true,true,true,true
+dir after body test: true,true,false,true
+dir after edge test: true,true,false,true
+[ 'up', 'down', 'right' ]
+Moving: down
+
+
+[0mPOST /move [32m200 [0m1.083 ms - 15[0m
+Turn= 4
+Head -- X: 7 Y: 4
+dir after position test: true,true,true,true
+dir after body test: false,true,true,true
+dir after edge test: false,true,true,true
+[ 'down', 'left', 'right' ]
+Moving: down
+
+
+[0mPOST /move [32m200 [0m1.307 ms - 15[0m
+Turn= 5
+Head -- X: 7 Y: 5
+dir after position test: true,true,true,true
+dir after body test: false,true,true,true
+dir after edge test: false,true,true,true
+[ 'down', 'left', 'right' ]
+Moving: down
+
+
+[0mPOST /move [32m200 [0m1.017 ms - 15[0m
+Turn= 6
+Head -- X: 7 Y: 6
+dir after position test: true,true,true,true
+dir after body test: false,true,true,true
+dir after edge test: false,true,true,true
+[ 'down', 'left', 'right' ]
+Moving: down
+
+
+[0mPOST /move [32m200 [0m2.907 ms - 15[0m
+Turn= 7
+Head -- X: 7 Y: 7
+dir after position test: true,true,true,true
+dir after body test: false,true,true,true
+dir after edge test: false,true,true,true
+[ 'down', 'left', 'right' ]
+Moving: right
+
+
+[0mPOST /move [32m200 [0m1.196 ms - 16[0m
+Turn= 8
+Head -- X: 8 Y: 7
+dir after position test: true,true,true,true
+dir after body test: true,true,false,true
+dir after edge test: true,true,false,true
+[ 'up', 'down', 'right' ]
+Moving: right
+
+
+[0mPOST /move [32m200 [0m1.390 ms - 16[0m
+[0mPOST /end [32m200 [0m0.651 ms - 2[0m

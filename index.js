@@ -57,7 +57,7 @@ var canGo = [];
 //my snake variables
 const headX = parseInt(request.body.you.body[0].x)
 const headY = parseInt(request.body.you.body[0].y)
-var berderY =0;
+var borderY =0;
 var borderX =0;
 
 console.log('Head -- X: '+headX+' Y: '+headY)
