@@ -40,7 +40,8 @@ app.post('/start', (request, response) => {
   bWidth = request.body.board.width;
 
   const data = {
-    color: '#e52470',
+    //color: '#A085B0',
+    color: '#e52470', //heroku
     name: "FyreFly"
   }
   return response.json(data)
@@ -56,6 +57,8 @@ var canGo = [];
 //my snake variables
 const headX = parseInt(request.body.you.body[0].x)
 const headY = parseInt(request.body.you.body[0].y)
+var berderY =0;
+var borderX =0;
 
 console.log('Head -- X: '+headX+' Y: '+headY)
 var move = '';
@@ -100,7 +103,16 @@ var length = request.body.you.body.length
     if (headX+1 == parseInt(seg.x) && headY == seg.y){// out of bounds right
       dir[3] = false
     }
-    //console.log(dir)
+
+    ////////
+    if ((seg.y == 0 || seg.y == bHeight-1) && borderY == 0){// out of bounds up
+      borderY = headY - seg.y
+      //insert some logic for if empty space is length of snake
+    }
+    if ((seg.x == 0 || seg.x == bWidth-1) && borderX == 0){// out of bounds up
+      borderX = headX - seg.X
+      //insert some logic for if empty space is length of snake
+    }
   }
 
   console.log ('dir after body test: '+dir)
@@ -108,6 +120,13 @@ var length = request.body.you.body.length
   //if facing edge remove closest turn
   if (headX == 0 || headX == bWidth-1){//if at either left or right edge
     //console.log('at X edge\n'+(headY < bHeight/2))
+    if (borderY != 0){//check if body is cutting off border path
+      if (borderY>0){
+        dir[2]=false
+      }else{
+        dir[3]=false
+      }
+    }
     if ((headY < bHeight/2) && dir[1]/*down*/){//if above board half point and down is an allowed option
       dir[0] == false
     }else if (dir[0]/*up*/){//if below o at board half and up is allowed option
@@ -116,11 +135,16 @@ var length = request.body.you.body.length
   }
   if (headY == 0 || headY == bHeight-1){
     //console.log('at Y edge\n'+(headX < bWidth/2)+' : '+((headX < bWidth/2) && dir[3]))
+    if (borderX != 0){//check if body is cutting off border path
+      if (borderX>0){
+        dir[2]=false
+      }else{
+        dir[3]=false
+      }
+    }
     if ((headX < bWidth/2) && dir[3]/*right*/){//if above board half point and down is an allowed option
-    //  console.log('Y-elim left')
       dir[2] = false
     }else if (dir[2]/*left*/){//if below o at board half and up is allowed option
-      //console.log('Y-elim right')
       dir[3] = false
     }
   }
