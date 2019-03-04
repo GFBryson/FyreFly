@@ -65,7 +65,55 @@ var borderX =0;//body on x border
 
 console.log('Head -- X: '+headX+' Y: '+headY)
 var move = '';
+try{
+  //snake grid build
+  var sNumb = request.body.board.snakes.length
+  //console.log(sNumb)
+  var snakeGrid = []
+  for(i=0;i<bWidth;i++){
+    line=[]
+    for (j=0 ; j<bHeight ; j++){
+      line.push(-1)
+    }
+    snakeGrid.push(line)
+  }
+  //console.log(snakeGrid)
 
+  for (j=0 ; j<sNumb ; j++){
+    //console.log(j)
+    var snk = request.body.board.snakes[j].body
+    //console.log(request.body.board)
+    var sLen = snk.length
+    for (i=0 ; i<sLen ; i++){
+      snakeGrid[snk[i].x][snk[i].y] = i
+    }
+  }
+  for (i=0 ; i < bHeight; i++){
+    line = [];
+    for (j=0; j<bWidth; j++){
+      line.push(snakeGrid[j][i])
+    }
+    console.log(i+' : '+line)
+  }
+
+  //will hit other snake?
+  if (snakeGrid[headX][headY-1]>-1){//check up
+    dir[0]=false
+  }
+  if (snakeGrid[headX][headY+1]>-1){//check down
+    dir[1]=false
+  }
+  if (snakeGrid[headX-1][headY]>-1){//check left
+    dir[2]=false
+  }
+  if (snakeGrid[headX+1][headY]>-1){//check right
+    dir[3]=false
+  }
+  console.log('dir after othSnk test: '+ dir)
+
+}catch(err){
+  console.log(err)
+}
 //will hit wall ? if so remove that option
 if (headY-1 < 0){// out of bounds up
   dir[0] = false//remoeve up option
@@ -179,7 +227,7 @@ try{
 
     //right
     if (dir[3]){//if we can move up NOTE: dirR[2] always false
-      if (headX+2 == seg.y && headY == seg.y){// if two right hits body
+      if (headX+2 == seg.x && headY == seg.y){// if two right hits body
         dirR[3] = false//cant go two right
       }
 
