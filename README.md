@@ -1,5 +1,22 @@
 # starter-snake-node(js)
 
+#Startup info Local
+environment Start
+  go to the battlesnake-engine folder
+  execute: ./engine.exe dev
+
+  will be runing on localhost:3010
+
+snake start
+  go to your snake folder
+  execute: npm start
+
+  will be running on localhost:5000
+
+
+
+
+
 A simple [Battlesnake AI](https://battlesnake.io) written in Javascript for NodeJS.
 
 To get started you'll need a working NodeJS development environment, and at least read the Heroku docs on [deploying a NodeJS app](https://devcenter.heroku.com/articles/getting-started-with-nodejs).

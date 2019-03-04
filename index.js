@@ -55,10 +55,13 @@ console.log("Turn= "+request.body.turn)
 var dir = [true,true,true,true] //[up,down,left,right]
 var canGo = [];
 //my snake variables
-const headX = parseInt(request.body.you.body[0].x)
-const headY = parseInt(request.body.you.body[0].y)
-var borderY =0;
-var borderX =0;
+const myLength = request.body.you.body.length
+const headX = request.body.you.body[0].x//head x position
+const headY = request.body.you.body[0].y//head y position
+const tailX = request.body.you.body[myLength-1].x//tail x position
+const tailY = request.body.you.body[myLength-1].y//tail y position
+var borderY =0;//body on y border
+var borderX =0;//body on x border
 
 console.log('Head -- X: '+headX+' Y: '+headY)
 var move = '';
@@ -81,74 +84,186 @@ if (headX+1 > bWidth-1){// out of bounds right
 }
 
 console.log('dir after position test: '+ dir)
+var dirU=[true,false,true,true]//if move up can dir be made after
+var dirD=[false,true,true,true]//if move up can dir be made after
+var dirL=[true,true,true,false]//if move up can dir be made after
+var dirR=[true,true,false,true]//if move up can dir be made after
 
 try{
-var length = request.body.you.body.length
-  for (i=1; i<length-1; i++) {//ignores head and tail
+  for (i=1; i<myLength-1; i++) {//ignores head and tail
     var seg = request.body.you.body[i]//get segment of snake
     //console.log('segment -- X: '+seg.x+' Y: '+seg.y)
     //console.log('||up: '+(headY-1)+' : '+seg.y+' : '+(headY-1 == parseInt(seg.y))+' ||down: '+(headY+1)+' : '+seg.y+' : '+(headY+1 == parseInt(seg.y))+' ||left: '+(headX-1)+' : '+seg.x+' : '+(headX-1 == parseInt(seg.x))+' ||right: '+(headX+1)+' : '+seg.x+' : '+(headX+1 == parseInt(seg.x)))
-    if (headY-1 == parseInt(seg.y) && headX == seg.x){// out of bounds up
+    if (headY-1 == seg.y && headX == seg.x){// out of bounds up
       dir[0] = false
     }
 
-    if (headY+1 == parseInt(seg.y) && headX == seg.x){// out of bounds down
+    if (headY+1 == seg.y && headX == seg.x){// out of bounds down
       dir[1] = false
     }
 
-    if (headX-1 == parseInt(seg.x) && headY == seg.y){// out of bounds left
+    if (headX-1 == seg.x && headY == seg.y){// out of bounds left
       dir[2] = false
     }
 
-    if (headX+1 == parseInt(seg.x) && headY == seg.y){// out of bounds right
+    if (headX+1 == seg.x && headY == seg.y){// out of bounds right
       dir[3] = false
     }
 
-    ////////
-    if ((seg.y == 0 || seg.y == bHeight-1) && borderY == 0){// out of bounds up
-      borderY = headY - seg.y
+    //if body segment on border find if snake will get trapped by body
+    if ((seg.y == 0 || seg.y == bHeight-1) && borderY == 0){// out of bounds up, down
+      borderY = seg.x - headX // distance between head and segment on Y border
+      //can follow tail?
+      if (((borderY<0 && tailX>seg.x)||(borderY>0 && tailX<seg.x)) && tailY == seg.y){ //tail is between a segment and head and is on same Y
+        borderY = 0 //reset as we can follow tail
+      } else if (myLength-i <= Math.abs(borderY)){
+        borderY = 0//reset as tail will unblock path by time we get to seg
+      }
       //insert some logic for if empty space is length of snake
     }
-    if ((seg.x == 0 || seg.x == bWidth-1) && borderX == 0){// out of bounds up
-      borderX = headX - seg.X
+    if ((seg.x == 0 || seg.x == bWidth-1) && borderX == 0){// out of bounds left, right
+      borderX = seg.y - headY//distance between head and segment on X border
+      if (((borderX<0 && tailY>seg.y)||(borderX>0 && tailY<seg.y)) && tailX == seg.x){ //tail is between a segment and head and is on same Y
+        borderX =0 //reset as we can follow tail
+      }else if (myLength-i <= Math.abs(borderY)){
+        borderX = 0//reset as tail will unblock path by time we get to seg
+      }
       //insert some logic for if empty space is length of snake
+    }
+
+    // would move trap head?
+    //up
+    if (dir[0]){//if we can move up NOTE: dirU[1] always false
+      if (headY-2 == seg.y && headX == seg.x){// if two up hits body
+        dirU[0] = false//cant go 2 up
+      }
+
+      if (headY-1 == seg.y && headX-1 == seg.x){// if up one and left hits body
+        dirU[2] = false//cant go up left
+      }
+
+      if (headY-1 == seg.y && headX+1 == seg.x){// if one up and right hits body
+        dirU[3] = false
+      }
+    }
+
+    //down
+    if (dir[1]){//if we can move up NOTE: dirD[0] always false
+      if (headY+2 == seg.y && headX == seg.x){// if two down hits body
+        dirD[0] = false//cant go 2 up
+      }
+
+      if (headY+1 == seg.y && headX-1 == seg.x){// if up down and left hits body
+        dirD[2] = false//cant go up left
+      }
+
+      if (headY+1 == seg.y && headX+1 == seg.x){// if one down and right hits body
+        dirD[3] = false
+      }
+    }
+
+    //left
+    if (dir[2]){//if we can move up NOTE: dirL[3] always false
+      if (headX-2 == seg.y && headY == seg.y){// if two left hits body
+        dirL[2] = false//cant go two left
+      }
+
+      if (headX-1 == seg.x && headY-1 == seg.y){// if one left and up hits body
+        dirL[0] = false//cant go up
+      }
+
+      if (headX-1 == seg.x && headY+1 == seg.y){// if one left and down hits body
+        dirL[1] = false // cant go down
+      }
+    }
+
+    //right
+    if (dir[3]){//if we can move up NOTE: dirR[2] always false
+      if (headX+2 == seg.y && headY == seg.y){// if two right hits body
+        dirR[3] = false//cant go two right
+      }
+
+      if (headX+1 == seg.x && headY-1 == seg.y){// if one right and up hits body
+        dirR[0] = false//cant go up
+      }
+
+      if (headX+1 == seg.x && headY+1 == seg.y){// if one right and down hits body
+        dirR[1] = false // cant go down
+      }
     }
   }
-
   console.log ('dir after body test: '+dir)
-
-  //if facing edge remove closest turn
-  if (headX == 0 || headX == bWidth-1){//if at either left or right edge
-    //console.log('at X edge\n'+(headY < bHeight/2))
-    if (borderY != 0){//check if body is cutting off border path
-      if (borderY>0){
-        dir[2]=false
-      }else{
-        dir[3]=false
-      }
-    }
-    if ((headY < bHeight/2) && dir[1]/*down*/){//if above board half point and down is an allowed option
-      dir[0] == false
-    }else if (dir[0]/*up*/){//if below o at board half and up is allowed option
-      dir[1] == false
+  console.log ('U: '+dirU)
+  console.log ('D: '+dirD)
+  console.log ('L: '+dirL)
+  console.log ('R: '+dirR)
+  //one move ahead
+  if (dir[0]){
+    if (!(dirU[0]||dirU[1]||dirU[2]||dirU[3])){//if future move is not possible
+      dir[0] = false
     }
   }
-  if (headY == 0 || headY == bHeight-1){
-    //console.log('at Y edge\n'+(headX < bWidth/2)+' : '+((headX < bWidth/2) && dir[3]))
-    if (borderX != 0){//check if body is cutting off border path
-      if (borderX>0){
-        dir[2]=false
-      }else{
-        dir[3]=false
+  if (dir[1]){
+    if (!(dirD[0]||dirD[1]||dirD[2]||dirD[3])){//if future move is not possible
+      dir[1] = false
+    }
+  }
+  if (dir[2]){
+    if (!(dirL[0]||dirL[1]||dirL[2]||dirL[3])){//if future move is not possible
+      dir[2] = false
+    }
+  }
+  if (dir[3]){
+    if (!(dirR[0]||dirR[1]||dirR[2]||dirR[3])){//if future move is not possible
+      dir[3] = false
+    }
+  }
+  console.log ('dir after future test: '+dir)
+  //logic for choosing which way head should turn if it is at the edge of the map
+  if (headY == 0 || headY == bHeight-1){// if head is on N/S edge
+
+    if (borderY != 0){//is not 0 if body is cutting off border path
+      console.log('in borderY')
+      if (borderY>0){//if posotive then body seg is to the right
+        dir[3]=false//remove right travel option
+      }else{//else is negative and seg is to left
+        dir[2]=false//remove left travel option
       }
     }
+
+    console.log('dir after borderY '+dir)
+    console.log('border left right: '+((headX < bWidth/2) && dir[3]/*right*/))
     if ((headX < bWidth/2) && dir[3]/*right*/){//if above board half point and down is an allowed option
       dir[2] = false
     }else if (dir[2]/*left*/){//if below o at board half and up is allowed option
       dir[3] = false
     }
   }
+
+
+  //if head is on W/E head
+  if (headX == 0 || headX == bWidth-1){//if at either left or right edge
+    //console.log('at X edge\n'+(headY < bHeight/2))
+    if (borderX != 0){//is not 0 if body is cutting off border path
+      console.log('in borderX')
+      if (borderX>0){//if positive then seg is below
+        dir[1]=false//remove down option
+      }else {//else is neg and seg is above
+        dir[0]=false//remove up option
+      }
+    }
+
+    console.log('dir after borderX '+dir)
+    console.log('border up down eval: '+((headY < bHeight/2) && dir[1]/*down*/))
+    if ((headY < bHeight/2) && dir[1]/*down*/){//if above board half point and down is an allowed option
+      dir[0] = false
+    }else if (dir[0]/*up*/){//if below o at board half and up is allowed option
+      dir[1] = false
+    }
+  }
+
   console.log ('dir after edge test: '+dir)
+
 
   //set possibuilities
   if (dir[0]){
@@ -163,9 +278,10 @@ var length = request.body.you.body.length
   if (dir[3]){
     canGo.push('right')
   }
-  console.log(canGo)
+  console.log('canGo: '+canGo)
+
 }catch(err){
-  console.log(err);
+  console.log(err)
 }
 
 move = canGo[getRandomInt(0,canGo.length-1)]
