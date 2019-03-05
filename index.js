@@ -7,6 +7,7 @@ const app = express()
 var moves= {}
 var bHeight = 0
 var bWidth = 0
+var snakeGrid = []
 //
 
 const {
@@ -69,7 +70,7 @@ try{
   //snake grid build
   var sNumb = request.body.board.snakes.length
   //console.log(sNumb)
-  var snakeGrid = []
+
   for(i=0;i<bWidth;i++){
     line=[]
     for (j=0 ; j<bHeight ; j++){
@@ -95,68 +96,76 @@ try{
     }
     console.log(i+' : '+line)
   }
+  //!!!!---------CHECK WALLS FIRST --------!!!!
+  //will hit wall ? if so remove that option
+  if (headY-1 < 0){// out of bounds up
+    dir[0] = false//remoeve up option
+  }
+
+  if (headY+1 > bHeight-1){// out of bounds down
+    dir[1] = false//remove down option
+  }
+
+  if (headX-1 < 0){// out of bounds left
+    dir[2] = false//remove left option
+  }
+
+  if (headX+1 > bWidth-1){// out of bounds right
+    dir[3] = false//remove right option
+  }
+
+  console.log('dir after wall test: '+ dir)
 
   //will hit other snake?
-  if (snakeGrid[headX][headY-1]>-1){//check up
-    dir[0]=false
+  if(dir[0]){//if no wall there
+    if (snakeGrid[headX][headY-1]>-1){//check up
+      dir[0]=false
+    }
   }
-  if (snakeGrid[headX][headY+1]>-1){//check down
-    dir[1]=false
+  if (dir[1]){//if no wall there
+    if (snakeGrid[headX][headY+1]>-1){//check down
+      dir[1]=false
+    }
   }
-  if (snakeGrid[headX-1][headY]>-1){//check left
-    dir[2]=false
+  if(dir[2]){//if no wall there
+    if (snakeGrid[headX-1][headY]>-1){//check left
+      dir[2]=false
+    }
   }
-  if (snakeGrid[headX+1][headY]>-1){//check right
-    dir[3]=false
+  if (dir[3]){//if no wall there
+    if (snakeGrid[headX+1][headY]>-1){//check right
+      dir[3]=false
+    }
   }
   console.log('dir after othSnk test: '+ dir)
 
 }catch(err){
   console.log(err)
 }
-//will hit wall ? if so remove that option
-if (headY-1 < 0){// out of bounds up
-  dir[0] = false//remoeve up option
-}
 
-if (headY+1 > bHeight-1){// out of bounds down
-  dir[1] = false//remove down option
-}
-
-if (headX-1 < 0){// out of bounds left
-  dir[2] = false//remove left option
-}
-
-if (headX+1 > bWidth-1){// out of bounds right
-  dir[3] = false//remove right option
-}
-
-console.log('dir after position test: '+ dir)
-var dirU=[true,false,true,true]//if move up can dir be made after
-var dirD=[false,true,true,true]//if move up can dir be made after
-var dirL=[true,true,true,false]//if move up can dir be made after
-var dirR=[true,true,false,true]//if move up can dir be made after
 
 try{
-  for (i=1; i<myLength-1; i++) {//ignores head and tail
+  for (i=1; i<myLength-1; i++) {//ignores my head and tail
     var seg = request.body.you.body[i]//get segment of snake
     //console.log('segment -- X: '+seg.x+' Y: '+seg.y)
     //console.log('||up: '+(headY-1)+' : '+seg.y+' : '+(headY-1 == parseInt(seg.y))+' ||down: '+(headY+1)+' : '+seg.y+' : '+(headY+1 == parseInt(seg.y))+' ||left: '+(headX-1)+' : '+seg.x+' : '+(headX-1 == parseInt(seg.x))+' ||right: '+(headX+1)+' : '+seg.x+' : '+(headX+1 == parseInt(seg.x)))
-    if (headY-1 == seg.y && headX == seg.x){// out of bounds up
-      dir[0] = false
-    }
 
-    if (headY+1 == seg.y && headX == seg.x){// out of bounds down
-      dir[1] = false
-    }
-
-    if (headX-1 == seg.x && headY == seg.y){// out of bounds left
-      dir[2] = false
-    }
-
-    if (headX+1 == seg.x && headY == seg.y){// out of bounds right
-      dir[3] = false
-    }
+    //no linger needed as we read all snakes into grid
+    // if (headY-1 == seg.y && headX == seg.x){// out of bounds up
+    //   dir[0] = false
+    // }
+    //
+    // if (headY+1 == seg.y && headX == seg.x){// out of bounds down
+    //   dir[1] = false
+    // }
+    //
+    // if (headX-1 == seg.x && headY == seg.y){// out of bounds left
+    //   dir[2] = false
+    // }
+    //
+    // if (headX+1 == seg.x && headY == seg.y){// out of bounds right
+    //   dir[3] = false
+    // }
 
     //if body segment on border find if snake will get trapped by body
     if ((seg.y == 0 || seg.y == bHeight-1) && borderY == 0){// out of bounds up, down
@@ -178,92 +187,31 @@ try{
       }
       //insert some logic for if empty space is length of snake
     }
-
-    // would move trap head?
-    //up
-    if (dir[0]){//if we can move up NOTE: dirU[1] always false
-      if (headY-2 == seg.y && headX == seg.x){// if two up hits body
-        dirU[0] = false//cant go 2 up
-      }
-
-      if (headY-1 == seg.y && headX-1 == seg.x){// if up one and left hits body
-        dirU[2] = false//cant go up left
-      }
-
-      if (headY-1 == seg.y && headX+1 == seg.x){// if one up and right hits body
-        dirU[3] = false
-      }
-    }
-
-    //down
-    if (dir[1]){//if we can move up NOTE: dirD[0] always false
-      if (headY+2 == seg.y && headX == seg.x){// if two down hits body
-        dirD[0] = false//cant go 2 up
-      }
-
-      if (headY+1 == seg.y && headX-1 == seg.x){// if up down and left hits body
-        dirD[2] = false//cant go up left
-      }
-
-      if (headY+1 == seg.y && headX+1 == seg.x){// if one down and right hits body
-        dirD[3] = false
-      }
-    }
-
-    //left
-    if (dir[2]){//if we can move up NOTE: dirL[3] always false
-      if (headX-2 == seg.y && headY == seg.y){// if two left hits body
-        dirL[2] = false//cant go two left
-      }
-
-      if (headX-1 == seg.x && headY-1 == seg.y){// if one left and up hits body
-        dirL[0] = false//cant go up
-      }
-
-      if (headX-1 == seg.x && headY+1 == seg.y){// if one left and down hits body
-        dirL[1] = false // cant go down
-      }
-    }
-
-    //right
-    if (dir[3]){//if we can move up NOTE: dirR[2] always false
-      if (headX+2 == seg.x && headY == seg.y){// if two right hits body
-        dirR[3] = false//cant go two right
-      }
-
-      if (headX+1 == seg.x && headY-1 == seg.y){// if one right and up hits body
-        dirR[0] = false//cant go up
-      }
-
-      if (headX+1 == seg.x && headY+1 == seg.y){// if one right and down hits body
-        dirR[1] = false // cant go down
-      }
-    }
   }
   console.log ('dir after body test: '+dir)
-  console.log ('U: '+dirU)
-  console.log ('D: '+dirD)
-  console.log ('L: '+dirL)
-  console.log ('R: '+dirR)
   //one move ahead
-  if (dir[0]){
-    if (!(dirU[0]||dirU[1]||dirU[2]||dirU[3])){//if future move is not possible
-      dir[0] = false
+  if(dir[0]){//only calc if can currently go
+    if (trapped(headY-1,headX,dir)){//up
+      console.log('up trapped')
+      dir[0]=false//up is trapped so dont go there
     }
   }
-  if (dir[1]){
-    if (!(dirD[0]||dirD[1]||dirD[2]||dirD[3])){//if future move is not possible
-      dir[1] = false
+  if(dir[1]){//only calc if can currently go
+    if (trapped(headY+1,headX,dir)){//up
+      console.log('down trapped')
+      dir[1]=false//down is trapped so dont go there
     }
   }
-  if (dir[2]){
-    if (!(dirL[0]||dirL[1]||dirL[2]||dirL[3])){//if future move is not possible
-      dir[2] = false
+  if(dir[2]){//only calc if can currently go
+    if (trapped(headY,headX-1,dir)){//up
+      console.log('left trapped')
+      dir[2]=false//left is trapped so dont go there
     }
   }
-  if (dir[3]){
-    if (!(dirR[0]||dirR[1]||dirR[2]||dirR[3])){//if future move is not possible
-      dir[3] = false
+  if(dir[3]){//only calc if can currently go
+    if (trapped(headY,headX+1,dir)){//up
+      console.log('right trapped')
+      dir[3]=false//right is trapped so dont go there
     }
   }
   console.log ('dir after future test: '+dir)
@@ -338,7 +286,7 @@ console.log('Moving: '+move+'\n\n')
   const data = {
     move: move, // one of: ['up','down','left','right']
   }
-
+  snakeGrid=[];//reset grid
   return response.json(data)
 })
 
@@ -368,4 +316,42 @@ function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function trapped(x,y,dirMaster){
+  var dir = [false,false,false,false]//[up,down,left,right]
+  console.log('dirMaster: '+dirMaster)
+  if(y-1>=0){
+    if (snakeGrid[x][y-1]>-1){
+      dir[0]=true
+    }
+  }else{
+    dir[0]=true
+  }
+  if(y+1<bHeight){
+    if (snakeGrid[x][y+1]>-1){
+      dir[1]=true
+    }
+  }else{
+    dir[1]=true
+  }
+  if(x-1>=0){//left
+    if (snakeGrid[x-1][y]>-1){
+      dir[2]=true
+    }
+  }else{
+    dir[2]=true
+  }
+  if(x+1 > bWidth){//right
+    if (snakeGrid[x+1][y]>-1){
+      dir[3] = true
+    }
+  }else{
+    dir[3]=true
+  }
+
+  if (dir[0]&&dir[1]&&dir[2]&&dir[3]){//if all directions are blocked
+    return true;//will be trapped
+  }else{
+    return false;//will not be trapped
+  }
 }
