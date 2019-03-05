@@ -1,0 +1,2 @@
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node index.js`[39m
