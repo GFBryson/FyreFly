@@ -85,8 +85,15 @@ try{
     var snk = request.body.board.snakes[j].body
     //console.log(request.body.board)
     var sLen = snk.length
-    for (i=0 ; i<sLen ; i++){
-      snakeGrid[snk[i].x][snk[i].y] = i
+    var seg = 0
+    for (seg=0 ; seg<sLen-1 ; seg++){//ignore tail (usually it will move)
+      snakeGrid[snk[seg].x][snk[seg].y] = seg
+    }
+    //console.log(snk[seg].x+' '+snk[seg].y)
+    if (request.body.turn >2){
+      snakeGrid[snk[seg].x][snk[seg].y] = -2 //use -2 to signify tail
+    }else{
+        snakeGrid[snk[seg].x][snk[seg].y] = seg //use -2 to signify tail
     }
   }
   for (i=0 ; i < bHeight; i++){
@@ -191,25 +198,25 @@ try{
   console.log ('dir after body test: '+dir)
   //one move ahead
   if(dir[0]){//only calc if can currently go
-    if (trapped(headY-1,headX,dir)){//up
+    if (trapped(headX,headY-1)){//up
       console.log('up trapped')
       dir[0]=false//up is trapped so dont go there
     }
   }
   if(dir[1]){//only calc if can currently go
-    if (trapped(headY+1,headX,dir)){//up
+    if (trapped(headX,headY+1)){//up
       console.log('down trapped')
       dir[1]=false//down is trapped so dont go there
     }
   }
   if(dir[2]){//only calc if can currently go
-    if (trapped(headY,headX-1,dir)){//up
+    if (trapped(headX-1,headY)){//up
       console.log('left trapped')
       dir[2]=false//left is trapped so dont go there
     }
   }
   if(dir[3]){//only calc if can currently go
-    if (trapped(headY,headX+1,dir)){//up
+    if (trapped(headX+1,headY)){//up
       console.log('right trapped')
       dir[3]=false//right is trapped so dont go there
     }
@@ -219,7 +226,7 @@ try{
   if (headY == 0 || headY == bHeight-1){// if head is on N/S edge
 
     if (borderY != 0){//is not 0 if body is cutting off border path
-      console.log('in borderY')
+      console.log('in borderY: '+borderY)
       if (borderY>0){//if posotive then body seg is to the right
         dir[3]=false//remove right travel option
       }else{//else is negative and seg is to left
@@ -241,7 +248,7 @@ try{
   if (headX == 0 || headX == bWidth-1){//if at either left or right edge
     //console.log('at X edge\n'+(headY < bHeight/2))
     if (borderX != 0){//is not 0 if body is cutting off border path
-      console.log('in borderX')
+      console.log('in borderX: '+borderX)
       if (borderX>0){//if positive then seg is below
         dir[1]=false//remove down option
       }else {//else is neg and seg is above
@@ -317,9 +324,13 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-function trapped(x,y,dirMaster){
+function trapped(x,y){
+  if (x>=0 && x<bWidth && y>=0 && y<bHeight){
+    if (snakeGrid[x][y]==(-2)){//if position is tail then we wont be trapped and can follow it out
+      return false
+    }
+  }
   var dir = [false,false,false,false]//[up,down,left,right]
-  console.log('dirMaster: '+dirMaster)
   if(y-1>=0){
     if (snakeGrid[x][y-1]>-1){
       dir[0]=true
@@ -348,7 +359,7 @@ function trapped(x,y,dirMaster){
   }else{
     dir[3]=true
   }
-
+  console.log('trapped Dir: '+dir)
   if (dir[0]&&dir[1]&&dir[2]&&dir[3]){//if all directions are blocked
     return true;//will be trapped
   }else{
