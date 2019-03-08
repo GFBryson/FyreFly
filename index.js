@@ -39,6 +39,7 @@ app.post('/start', (request, response) => {
     bHeight = request.body.board.height;
     bWidth = request.body.board.width;
 
+    foodGrid = []
     for(i=0;i<bWidth;i++){
       line=[]
       for (j=0 ; j<bHeight ; j++){
@@ -47,7 +48,7 @@ app.post('/start', (request, response) => {
       foodGrid.push(line)
     }
     setFood(request.body.board.food,0)
-    prevFoodLen = request.body.board.food
+    prevFoodLen = request.body.board.food.length
   }catch(e){
     console.log('IN START: '+e)
   }
@@ -120,7 +121,7 @@ try{
         iAmLongest=true//make me longest snake
       }
     }else{//if snake is not me
-      if (sLen>longestSnk){
+      if (sLen>=longestSnk){
         longestSnk= sLen//if snake is new longest set as longest
         if (iAmLongest){//if i was longest make me not so
           iAmLongest = false
@@ -135,28 +136,18 @@ try{
   for (i=0 ; i<request.body.board.food.length ; i++){
     givenFood+='('+request.body.board.food[i].x+','+request.body.board.food[i].y+') '
   }
-  console.log(foodEaten);
-  console.log(givenFood)
-  setFood(request.body.board.food,request.body.board.food.length-foodEaten)
-//for testing only
-  for (i=0 ; i<bWidth ; i++){
-    for (j=0 ; j<bHeight ; j++){
-      if(foodGrid[i][j]==1){
-        myFood+='('+i+','+j+') '
-      }
-    }
-  }
-  console.log(myFood+'\n')
-//remove when sure food is recorded correctly
+  setFood(request.body.board.food,prevFoodLen-foodEaten)//only recalc for new food pieces
+
   //print snake Grid
   for (i=0 ; i < bHeight; i++){
     line = [];
     for (j=0; j<bWidth; j++){
       line.push(snakeGrid[j][i])
     }
-    //console.log(i+' : '+line)
+    console.log(i+' : '+line)
   }
-  //console.log('i am longest: '+iAmLongest)
+
+  console.log('i am longest: '+iAmLongest)
   //!!!!---------CHECK WALLS FIRST --------!!!!
   //will hit wall ? if so remove that option
   if (headY-1 < 0){// out of bounds up
@@ -175,7 +166,7 @@ try{
     dir[3] = false//remove right option
   }
 
-  //console.log('dir after wall test: '+ dir)
+  console.log('dir after wall test: '+ dir)
 
   //will hit other snake?
   if(dir[0]){//if no wall there
@@ -198,7 +189,7 @@ try{
       dir[3]=false
     }
   }
-  //console.log('dir after othSnk test: '+ dir)
+  console.log('dir after othSnk test: '+ dir)
 
 }catch(err){
   console.log(err)
@@ -229,7 +220,7 @@ try{
       //insert some logic for if empty space is length of snake
     }
   }
-  //console.log ('dir after body test: '+dir)
+  console.log ('dir after body test: '+dir)
   //one move ahead
   if(dir[0]){//only calc if can currently go
     if (trapped(headX,headY-1)){//up
@@ -255,12 +246,12 @@ try{
       dir[3]=false//right is trapped so dont go there
     }
   }
-  //console.log ('dir after future test: '+dir)
+  console.log ('dir after future test: '+dir)
   //logic for choosing which way head should turn if it is at the edge of the map
   if (headY == 0 || headY == bHeight-1){// if head is on N/S edge
 
     if (borderY != 0){//is not 0 if body is cutting off border path
-      //console.log('in borderY: '+borderY)
+      console.log('in borderY: '+borderY)
       if (borderY>0){//if posotive then body seg is to the right
         dir[3]=false//remove right travel option
       }else{//else is negative and seg is to left
@@ -268,7 +259,7 @@ try{
       }
     }
 
-    //console.log('dir after borderY '+dir)
+    console.log('dir after borderY '+dir)
     //console.log('border left right: '+((headX < bWidth/2) && dir[3]/*right*/))
     if ((headX < bWidth/2) && dir[3]/*right*/){//if above board half point and down is an allowed option
       dir[2] = false
@@ -280,9 +271,9 @@ try{
 
   //if head is on W/E head
   if (headX == 0 || headX == bWidth-1){//if at either left or right edge
-    ////console.log('at X edge\n'+(headY < bHeight/2))
+    //console.log('at X edge\n'+(headY < bHeight/2))
     if (borderX != 0){//is not 0 if body is cutting off border path
-      //console.log('in borderX: '+borderX)
+      console.log('in borderX: '+borderX)
       if (borderX>0){//if positive then seg is below
         dir[1]=false//remove down option
       }else {//else is neg and seg is above
@@ -290,7 +281,7 @@ try{
       }
     }
 
-    //console.log('dir after borderX '+dir)
+    console.log('dir after borderX '+dir)
     //console.log('border up down eval: '+((headY < bHeight/2) && dir[1]/*down*/))
     if ((headY < bHeight/2) && dir[1]/*down*/){//if above board half point and down is an allowed option
       dir[0] = false
@@ -299,23 +290,34 @@ try{
     }
   }
 
-  //console.log ('dir after edge test: '+dir)
+  console.log ('dir after edge test: '+dir)
 
+//PRIOROTIES HARD CODED FOR NOW
+
+var priority = [1,1,1,1]//[up,down,left,right]
 
   //set possibuilities
   if (dir[0]){
-    canGo.push('up')
+    for(i=0 ; i< priority[0]+1 ; i++){
+      canGo.push('up')
+    }
   }
   if (dir[1]){
-    canGo.push('down')
+    for(i=0 ; i< priority[1]+1 ; i++){
+      canGo.push('down')
+    }
   }
   if (dir[2]){
-    canGo.push('left')
+    for(i=0 ; i< priority[2]+1 ; i++){
+      canGo.push('left')
+    }
   }
   if (dir[3]){
-    canGo.push('right')
+    for(i=0 ; i< priority[3]+1 ; i++){
+      canGo.push('right')
+    }
   }
-  //console.log('canGo: '+canGo)
+console.log('canGo: '+canGo)
 
 }catch(err){
   console.log(err)
@@ -323,7 +325,7 @@ try{
 
 
 move = canGo[getRandomInt(0,canGo.length-1)]
-//console.log('Moving: '+move+'\n\n')
+console.log('Moving: '+move+'\n\n')
   // Response data
   const data = {
     move: move, // one of: ['up','down','left','right']
@@ -362,10 +364,8 @@ function getRandomInt(min, max) {
 
 function setFood(food,startAt){
   console.log('startAt: '+startAt)
-  if (startAt<0){
-    startAt = 0
-  }
-  for (i=startAt ; i<food.length; i++){
+  prevFoodLen = food.length//set length of current food chain
+  for (i=startAt ; i<prevFoodLen; i++){
     console.log('Setting food at: '+food[i].x+' '>food[i].y)
     foodGrid[food[i].x][food[i].y] = 1
   }
@@ -377,14 +377,14 @@ function trapped(x,y){
     }
   }
   var dir = [false,false,false,false]//[up,down,left,right]
-  if(y-1>=0){
+  if(y-1 >= 0){
     if (snakeGrid[x][y-1]>-1){
       dir[0]=true
     }
   }else{
     dir[0]=true
   }
-  if(y+1<bHeight){
+  if(y+1 < bHeight){
     if (snakeGrid[x][y+1]>-1){
       dir[1]=true
     }
@@ -398,14 +398,14 @@ function trapped(x,y){
   }else{
     dir[2]=true
   }
-  if(x+1 > bWidth){//right
+  if(x+1 < bWidth){//right
     if (snakeGrid[x+1][y]>-1){
       dir[3] = true
     }
   }else{
     dir[3]=true
   }
-  //console.log('trapped Dir: '+dir)
+  console.log('trapped Dir: '+dir)
   if (dir[0]&&dir[1]&&dir[2]&&dir[3]){//if all directions are blocked
     return true;//will be trapped
   }else{
